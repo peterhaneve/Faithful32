@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A715D3E8-A294-40A7-BD04-A6BD466A654C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Faithful32</RootNamespace>
+    <AssemblyName>Faithful32</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>faithful.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicTreeNode.cs" />
+    <Compile Include="DefaultImageRescaler.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FaithfulForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FaithfulForm.Designer.cs">
+      <DependentUpon>FaithfulForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GuiImageReplacer.cs" />
+    <Compile Include="IImageRescaler.cs" />
+    <Compile Include="ImageColorizer.cs" />
+    <Compile Include="ImageLoader.cs" />
+    <Compile Include="PackTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TextureEntry.cs" />
+    <Compile Include="PictureBoxNN.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TexturePack.cs" />
+    <Compile Include="Waifu2XImageRescaler.cs" />
+    <EmbeddedResource Include="FaithfulForm.resx">
+      <DependentUpon>FaithfulForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="..\Waifu2X\models_rgb\noise0_model.json">
+      <Link>models_rgb\noise0_model.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Waifu2X\models_rgb\noise1_model.json">
+      <Link>models_rgb\noise1_model.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Waifu2X\models_rgb\noise2_model.json">
+      <Link>models_rgb\noise2_model.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Waifu2X\models_rgb\noise3_model.json">
+      <Link>models_rgb\noise3_model.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Waifu2X\models_rgb\scale2.0x_model.json">
+      <Link>models_rgb\scale2.0x_model.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Waifu2X\w2xc.lib">
+      <Link>w2xc.lib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Waifu2X\opencv_world412.dll">
+      <Link>opencv_world412.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Waifu2X\w2xc.dll">
+      <Link>w2xc.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Waifu2X\waifu2x-converter-cpp.exe">
+      <Link>waifu2x-converter-cpp.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="faithful.ico" />
+    <None Include="old\enderio_bottom.png" />
+    <None Include="old\fire_on.png" />
+    <None Include="old\fire_off.png" />
+    <None Include="new\enderio_bottom.png" />
+    <None Include="new\fire_on.png" />
+    <None Include="new\fire_off.png" />
+    <None Include="old\side_l.png" />
+    <None Include="old\side_b.png" />
+    <None Include="old\side_t.png" />
+    <None Include="old\side_r.png" />
+    <None Include="new\side_b.png" />
+    <None Include="new\side_t.png" />
+    <None Include="new\side_r.png" />
+    <None Include="new\side_l.png" />
+    <None Include="old\inventory_small.png" />
+    <None Include="old\inventory_large.png" />
+    <None Include="new\inventory_small.png" />
+    <None Include="new\inventory_large.png" />
+    <None Include="old\corner_tr.png" />
+    <None Include="old\corner_tl.png" />
+    <None Include="old\corner_br.png" />
+    <None Include="old\corner_bl.png" />
+    <None Include="new\corner_tr.png" />
+    <None Include="new\corner_tl.png" />
+    <None Include="new\corner_br.png" />
+    <None Include="new\corner_bl.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
