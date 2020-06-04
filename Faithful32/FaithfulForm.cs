@@ -25,6 +25,7 @@ namespace Faithful32 {
 			pack = null;
 			InitializeComponent();
 			cbRescaleType.SelectedIndex = 0;
+			ParseCommandLine();
 		}
 
 		private void BeginInvoke(Action cmd) {
@@ -127,6 +128,29 @@ namespace Faithful32 {
 				tvPack.SetPack(tree);
 				tvRecolorSource.SetPack(tree);
 			});
+		}
+
+		private void ParseCommandLine() {
+			string[] args = Environment.GetCommandLineArgs();
+			int n = args.Length;
+			bool hasPack = false, hasMod = false;
+			// [0] is the EXE name
+			for (int i = 1; i < n; i++) {
+				string arg = args[i];
+				if (!string.IsNullOrEmpty(arg)) {
+					if (Directory.Exists(arg) && !hasPack) {
+						// Directories passed are interpreted as a pack argument
+						btnPack.Enabled = false;
+						hasPack = true;
+						Task.Run(() => LoadPack(arg));
+					} else if (File.Exists(arg) && !hasMod) {
+						// Files passed are interpreted as a mod argument
+						btnMod.Enabled = false;
+						hasMod = true;
+						Task.Run(() => LoadMod(arg));
+					}
+				}
+			}
 		}
 
 		private void PickColor(Color color) {
