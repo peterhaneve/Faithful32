@@ -35,6 +35,7 @@ namespace Faithful32 {
 		private void Colorize() {
 			var tag = tvRecolorSource.SelectedTexture;
 			if (tag != null) {
+				tag.Load();
 				var colorizer = new ImageColorizer(tag.ImageData);
 				if (cbRecolor.Checked)
 					colorizer.Colorize(txtHue.Value.RoundToFloat(), txtSat.Value.RoundToFloat(),
@@ -69,6 +70,7 @@ namespace Faithful32 {
 			var src = tvMod.SelectedTexture;
 			if (src != null) {
 				Bitmap bitmap = null;
+				src.Load();
 				// This allocates a bitmap
 				if (cbRescaleType.SelectedIndex == 1)
 					try {
@@ -142,11 +144,13 @@ namespace Faithful32 {
 						// Directories passed are interpreted as a pack argument
 						btnPack.Enabled = false;
 						hasPack = true;
+						packFolderDialog.SelectedPath = arg;
 						Task.Run(() => LoadPack(arg));
 					} else if (File.Exists(arg) && !hasMod) {
 						// Files passed are interpreted as a mod argument
 						btnMod.Enabled = false;
 						hasMod = true;
+						modFileDialog.InitialDirectory = Path.GetDirectoryName(arg);
 						Task.Run(() => LoadMod(arg));
 					}
 				}
@@ -226,9 +230,23 @@ namespace Faithful32 {
 		private void tvMod_AfterSelect(object sender, TreeViewEventArgs e) {
 			var tag = tvMod.GetEntry(e.Node);
 			if (tag != null) {
-				tvPack.FindEntry(tag);
-				SetInputImage(tag.ImageData);
-				GuiRescale();
+				if (ModifierKeys.HasFlag(Keys.Control)) {
+					tvRecolorSource.FindEntry(tag);
+					Colorize();
+				} else {
+					tvPack.FindEntry(tag);
+					tag.Load();
+					SetInputImage(tag.ImageData);
+					GuiRescale();
+				}
+			}
+		}
+
+		private void tvPack_AfterSelect(object sender, TreeViewEventArgs e) {
+			if (ModifierKeys.HasFlag(Keys.Control)) {
+				var tag = tvPack.GetEntry(e.Node);
+				if (tag != null)
+					tvMod.FindEntry(tag);
 			}
 		}
 
@@ -268,6 +286,11 @@ namespace Faithful32 {
 
 		private void tvRecolorSource_AfterSelect(object sender, TreeViewEventArgs e) {
 			Colorize();
+			if (ModifierKeys.HasFlag(Keys.Control)) {
+				var tag = tvRecolorSource.GetEntry(e.Node);
+				if (tag != null)
+					tvMod.FindEntry(tag);
+			}
 		}
 
 		private void btnWriteRecolor_Click(object sender, EventArgs e) {
@@ -280,8 +303,10 @@ namespace Faithful32 {
 
 		private void btnExtract_Click(object sender, EventArgs e) {
 			var selected = tvMod.SelectedTexture;
-			if (selected != null)
+			if (selected != null) {
+				selected.Load();
 				WriteImage(selected.ImageData, selected.AnimationData);
+			}
 		}
 		#endregion
 	}

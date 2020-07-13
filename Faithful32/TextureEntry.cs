@@ -20,22 +20,20 @@ namespace Faithful32 {
 
 		public string FullPath { get; }
 
-		public Bitmap ImageData { get; }
+		public Bitmap ImageData { get; private set; }
 
-		public Size ImageSize { get; }
+		public Size ImageSize { get; private set; }
 
 		public string LastDirectory { get; }
 
 		public ISet<string> PathElements { get; }
 
-		public TextureEntry(string path, Bitmap img) {
+		public TextureEntry(string path, Bitmap img = null) {
 			if (string.IsNullOrEmpty(path))
 				throw new ArgumentNullException("path");
-			if (img == null)
-				throw new ArgumentNullException("img");
 			FullPath = path;
 			ImageData = img;
-			ImageSize = img.Size;
+			ImageSize = (img == null) ? Size.Empty : img.Size;
 			// assets/MODNAME/textures/items/extras/
 			LastDirectory = Path.GetPathRoot(FullPath);
 			PathElements = new HashSet<string>(TexturePack.SplitPath(path));
@@ -43,6 +41,19 @@ namespace Faithful32 {
 
 		public int CompareTo(TextureEntry other) {
 			return FullPath.CompareTo(other.FullPath);
+		}
+
+		public void Load() {
+			if (ImageData == null) {
+				Bitmap img;
+				try {
+					img = ImageLoader.LoadFromFile(FullPath);
+				} catch (ArgumentException) {
+					img = new Bitmap(16, 16);
+				}
+				ImageData = img;
+				ImageSize = img.Size;
+			}
 		}
 
 		public override string ToString() {
@@ -55,7 +66,7 @@ namespace Faithful32 {
 		void Dispose(bool disposing) {
 			if (!disposedValue) {
 				if (disposing) {
-					ImageData.Dispose();
+					ImageData?.Dispose();
 				}
 				disposedValue = true;
 			}

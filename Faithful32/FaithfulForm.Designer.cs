@@ -512,6 +512,7 @@
 			this.tvPack.ShowNodeToolTips = true;
 			this.tvPack.Size = new System.Drawing.Size(200, 508);
 			this.tvPack.TabIndex = 5;
+			this.tvPack.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvPack_AfterSelect);
 			// 
 			// tvMod
 			// 

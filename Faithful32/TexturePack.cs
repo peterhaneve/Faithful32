@@ -24,7 +24,8 @@ namespace Faithful32 {
 		}
 
 		public BasicTreeNode<TextureEntry> AsTree() {
-			var root = new BasicTreeNode<TextureEntry>(string.Empty, null);
+			BasicTreeNode<TextureEntry> child, root = new BasicTreeNode<TextureEntry>(string.
+				Empty, null);
 			foreach (var entry in this) {
 				BasicTreeNode<TextureEntry> node = root, next;
 				string[] folders = SplitPath(entry.FullPath);
@@ -50,9 +51,9 @@ namespace Faithful32 {
 					node = next;
 				}
 			}
-			while (!root.IsLeaf && root.ChildCount == 1)
+			while (root.ChildCount == 1 && (child = root.FirstChild) != null && !child.IsLeaf)
 				// 0 child count is not equal to 1
-				root = root.FirstChild;
+				root = child;
 			return root;
 		}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -37,8 +36,10 @@ namespace Faithful32 {
 			if (value != null) {
 				var path = value.FullPath;
 				var imgList = images.Images;
-				if (!string.IsNullOrEmpty(path) && !imgList.ContainsKey(path))
+				if (!string.IsNullOrEmpty(path) && !imgList.ContainsKey(path)) {
+					value.Load();
 					imgList.Add(path, value.ImageData);
+				}
 			}
 		}
 

@@ -49,11 +49,8 @@ namespace Faithful32 {
 			foreach (string imgFile in files)
 				if (imgFile.Contains(TEXTURES))
 					try {
-						TextureEntry entry;
-						using (var stream = OpenFile(imgFile)) {
-							// ignore exception if image data is invalid
-							entry = new TextureEntry(imgFile, LoadImageCached(stream));
-						}
+						// ignore exception if image data is invalid
+						var entry = new TextureEntry(imgFile);
 						string ani = imgFile + "." + ANI_EXT;
 						if (File.Exists(ani))
 							entry.AnimationData = File.ReadAllText(ani);
@@ -70,8 +67,11 @@ namespace Faithful32 {
 			}
 		}
 
-		private static FileStream OpenFile(string path) {
-			return new FileStream(path, FileMode.Open, FileAccess.Read);
+		internal static Bitmap LoadFromFile(string path) {
+			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read)) {
+				// ignore exception if image data is invalid
+				return LoadImageCached(stream);
+			}
 		}
 	}
 }
